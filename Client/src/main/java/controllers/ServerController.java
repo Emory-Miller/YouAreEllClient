@@ -24,7 +24,7 @@ public class ServerController {
         return svr;
     }
 
-    public List<Id> idGet() throws IOException {
+    public JSONString idGet() throws IOException {
         // url -> /ids/
         // send the server a get with url
         // return json from server
