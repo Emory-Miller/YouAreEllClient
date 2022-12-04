@@ -15,11 +15,13 @@ package models;
  */
 public class Message implements Comparable {
 
-    private String message = "";
-    private String toid = "";
-    private String fromid = "";
+    private String sequence = "-";
     private String timestamp = "_";
-    private String sequence = "_";
+    private String fromid = "";
+    private String toid = "";
+    private String message = "";
+
+
 
     public Message(String sequence, String timestamp, String fromid, String toid, String message) {
         this.message = message;
@@ -30,20 +32,20 @@ public class Message implements Comparable {
 
     }
 
-    public Message (String message, String fromid, String toid) {
+    public Message (String fromid, String toid, String message) {
         this.message = message;
         this.fromid = fromid;
         this.toid = toid;
-        this.sequence = "_";
+        this.sequence = "-";
         this.timestamp = "_";
     }
 
     public Message (String message, String fromid) {
-        this.message = message;
+        this.sequence = "-";
+        this.timestamp = "_";
         this.fromid = fromid;
         this.toid = "";
-        this.sequence = "_";
-        this.timestamp = "_";
+        this.message = message;
     }
 
     @Override

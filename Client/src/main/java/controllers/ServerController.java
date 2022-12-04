@@ -96,13 +96,8 @@ public class ServerController {
     }
 
     public String messagePost(Message message) throws IOException {
-        // url -> /ids/
-        // create json from Id
-        // request
-        // reply
-        // return json
         Gson gson = new Gson();
-        URL url = new URL(rootURL+"/messages");
+        URL url = new URL(rootURL+"/ids/xt0fer/messages");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");

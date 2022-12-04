@@ -17,7 +17,7 @@ public class ServerControllerTest {
 
     @Test
     public void idPostTest() throws IOException {
-        Id id = new Id("Emory", "Just Testing...");
+        Id id = new Id("Emory", "Emory-Miller");
         System.out.println(ServerController.shared().idPost(id));
     }
 
@@ -29,7 +29,7 @@ public class ServerControllerTest {
 
     @Test
     public void messagePostTest() throws IOException {
-        Message message = new Message("Just testing this from a test clas...", "Emory", "Freddy");
+        Message message = new Message("Just testing this out.... from a test class", "Emory-Miller");
         System.out.println(ServerController.shared().messagePost(message));
     }
 
