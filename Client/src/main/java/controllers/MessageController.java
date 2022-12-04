@@ -1,10 +1,10 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import models.Id;
 import models.Message;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MessageController {
 
@@ -24,8 +24,8 @@ public class MessageController {
         return null;
     }
 
-    public Message postMessage(Id myId, Id toId, Message msg) {
-        return null;
+    public Message postMessage(Message msg, Id myId, Id toId) { // MESSAGE TO ANOTHER USER
+        return new Message(msg.getMessage(), myId.getUid(), toId.getUid());
     }
  
 }

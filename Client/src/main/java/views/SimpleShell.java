@@ -1,15 +1,14 @@
 package views;
 
+import controllers.IdController;
+import controllers.MessageController;
+import controllers.TransactionController;
+import youareell.YouAreEll;
+
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import controllers.IdController;
-import controllers.MessageController;
-import youareell.YouAreEll;
 
 // Simple Shell is a Console view for youareell.YouAreEll.
 public class SimpleShell {
@@ -21,7 +20,7 @@ public class SimpleShell {
     }
     public static void main(String[] args) throws java.io.IOException {
 
-        YouAreEll urll = new YouAreEll(new MessageController(), new IdController());
+        YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(), new IdController()));
         
         String commandLine;
         BufferedReader console = new BufferedReader
@@ -67,18 +66,18 @@ public class SimpleShell {
                 // Specific Commands.
 
                 // ids
-                if (list.contains("ids")) {
-                    String results = webber.get_ids();
-                    SimpleShell.prettyPrint(results);
-                    continue;
-                }
-
-                // messages
-                if (list.contains("messages")) {
-                    String results = webber.get_messages();
-                    SimpleShell.prettyPrint(results);
-                    continue;
-                }
+//                if (list.contains("ids")) {
+//                    String results = urll.get_ids();
+//                    SimpleShell.prettyPrint(results);
+//                    continue;
+//                }
+//
+//                // messages
+//                if (list.contains("messages")) {
+//                    String results = urll.get_messages();
+//                    SimpleShell.prettyPrint(results);
+//                    continue;
+//                }
                 // you need to add a bunch more.
 
                 //!! command returns the last command in history
@@ -109,12 +108,15 @@ public class SimpleShell {
                 // br.close();
 
 
+            } catch (Exception e) {            // ADDED THIS TO GET CODE TO COMPILE
+                throw new RuntimeException(e);
             }
 
             //catch ioexception, output appropriate message, resume waiting for input
-            catch (IOException e) {
-                System.out.println("Input Error, Please try again!");
-            }
+//            catch (IOException e) {
+//                System.out.println("Input Error, Please try again!");
+//            }
+
             // So what, do you suppose, is the meaning of this comment?
             /** The steps are:
              * 1. parse the input to obtain the command and any parameters
