@@ -1,0 +1,76 @@
+application {
+  config {
+	baseName Jive
+	applicationType monolith
+	packageName rocks.zipcode
+	authenticationType jwt
+ 	prodDatabaseType mysql
+ 	clientFramework react
+    clientTheme solar
+    clientThemeVariant dark
+    
+  }
+	entities *
+}
+
+dto * with mapstruct
+service * with serviceClass
+
+entity UserProfile {
+	displayName String
+    profileImage ImageBlob
+}
+
+entity Member {
+    userId Long
+	channelID Long
+}
+
+entity DirectMessage {
+	userId1 Long
+    userId2 Long
+}
+
+entity Channel {
+	name String
+    description String
+}
+
+entity Message {
+	userId Long
+    channelID Long
+    text String
+}
+
+relationship OneToOne {
+	UserProfile{User(login)} to User
+}
+
+relationship OneToMany {
+	UserProfile to Message
+}
+
+relationship OneToOne {
+	Message to UserProfile
+}
+
+relationship OneToMany {
+	Channel to Message
+}
+
+relationship OneToOne {
+	Message to Channel
+}
+
+relationship ManyToMany {
+	UserProfile to Channel
+}
+
+relationship ManyToMany {
+	Channel to Member
+}
+
+relationship ManyToMany {
+	DirectMessage to UserProfile
+}
+
