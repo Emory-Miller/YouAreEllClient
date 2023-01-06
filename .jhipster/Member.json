@@ -1,0 +1,43 @@
+{
+  "applications": ["Jive"],
+  "changelogDate": "20230106203745",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "member",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "channelID",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Member",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "message",
+      "otherEntityRelationshipName": "member",
+      "relationshipName": "message",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "member",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "channel",
+      "otherEntityRelationshipName": "member",
+      "relationshipName": "channel",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}
