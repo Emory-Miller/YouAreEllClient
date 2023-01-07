@@ -1,185 +1,228 @@
-# Under-A-Rock
+# Jive
 
-## Client HTTP/REST API for UnderARock
+This application was generated using JHipster 7.9.3, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.3](https://www.jhipster.tech/documentation-archive/v7.9.3).
 
-You'll write a Client to exchange JSON data over HTTP with a Server, in this case, the UnderARock(TM) server. Get POSTMAN, the app, you need it. https://www.getpostman.com/
+## Project Structure
 
-a little article on [ModelViewController](https://www.geeksforgeeks.org/mvc-design-pattern/)
+Node is required for generation and recommended for development. `package.json` is always generated for a better development experience with prettier, commit hooks, scripts and so on.
 
-### The Point
+In the project root, JHipster generates configuration files for tools like git, prettier, eslint, husky, and others that are well known and you can find references in the web.
 
-* You are to write a command interpreter using the provided `SimpleShell` class.
-* You're going to create a way
-	* for commands to be typed into your shell,
-	* to read the typed commands and arguments,
-	* to send them off to the Under-A-Rock server using a REST API over the HTTP protocol,
-	* to read the JSON data returned from the URL call,
-	* to print it out nicely formatted for your user. 
+`/src/*` structure follows default Java structure.
 
-* `Under-A-Rock` acts a little (very little) like a twitter server or chat server.
-	* You register your name and github id by creating an ID JSON payload (see below) and POSTing it to the server.
-	* You can GET all the ids registered by sending a GET request to the same URL.
-	* Once you've received all the ids, you can send messages to the world or to a specific `Github_id`.
+- `.yo-rc.json` - Yeoman configuration file
+  JHipster configuration is stored in this file at `generator-jhipster` key. You may find `generator-jhipster-*` for specific blueprints configuration.
+- `.yo-resolve` (optional) - Yeoman conflict resolver
+  Allows to use a specific action when conflicts are found skipping prompts for files that matches a pattern. Each line should match `[pattern] [action]` with pattern been a [Minimatch](https://github.com/isaacs/minimatch#minimatch) pattern and action been one of skip (default if ommited) or force. Lines starting with `#` are considered comments and are ignored.
+- `.jhipster/*.json` - JHipster entity configuration files
 
+- `npmw` - wrapper to use locally installed npm.
+  JHipster installs Node and npm locally using the build tool by default. This wrapper makes sure npm is installed locally and uses it avoiding some differences different versions can cause. By using `./npmw` instead of the traditional `npm` you can configure a Node-less environment to develop or test your application.
+- `/src/main/docker` - Docker configurations for the application and services that the application depends on
 
+## Development
 
-* You can send a message to the global timeline by POSTing a Message JSON object to the URL below.
-	* If you leave the `to id` field empty, the message is `to the world`.
-	* If you fill out the the JSON template with a valid github_id in the `to id` field of the JSON payload, then that message is addressed to that friend.
-	* Yes, all messages can be seen by users of the system.
-	* There are JSON templates below for both Ids and Messages.
+Before you can build this project, you must install and configure the following dependencies on your machine:
 
+1. [Node.js][]: We use Node to run a development web server and build the project.
+   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
+After installing Node, you should be able to run the following command to install development tools.
+You will only need to run this command when dependencies change in [package.json](package.json).
 
-* When you send a new Message or Id JSON object to the server, it records it, and fills in one or two fields. 
-	* A Message gets an assigned sequence number and a timestamp of when it was received by the server.
-	* An ID object gets a "user id" field assigned to it.
-	* Any sequence number, timestamp or userid you put into a JSON template gets overwritten by the server when you POST it. 
-
-
-
-* You're going to create a series of REST API handlers that will each perform a 
-specific command.
-	* Each one of the command methods will then call a even lower-level method that makes a certain kind of HTTP request (GET, POST, PUT) to specific filled-in URL.
-
-* The Under-A-Rock Server can be reached at `http://zipcode.rocks:8085` Everyone uses the same server. 		
-	* There are two segments to the API and two kinds of commands in the shell, the ID segment and the Messages segment.
-
-
-* You can explore several ways of doing the HTTP URL calls to the server, using the one of these:
-	* [Apache HTTP Client Library](http://hc.apache.org/httpcomponents-client-ga/index.html)
-	* [Unirest for Java](http://unirest.io/java.html)
-	* [Square's OKHttp](https://github.com/square/okhttp)
-	* Core Java:
-		* [URL](https://docs.oracle.com/javase/8/docs/api/java/net/URL.html)
-		* [HttpURLConnection](https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html)
-
-* Be prepared to defend your choice if which HTTP client library you chose, with reasons why you chose it.
-	* You should also create some unit tests for your REST API handlers.
-
-* It's possible you may also need to understand some of what the [Jackson package](https://github.com/FasterXML/jackson) does.
-
-* You might like this too : https://www.pluralsight.com/courses/rest-fundamentals
-## IDs
-
-#### ID commands in shell
-
-* In the shell, `ids` should return a formatted list of the IDs available to you.
-* `ids your_name your_github_id` command should post your Name and your GithubId to the server.
-* If you do this twice with two different Names, but the name GithubId, the name on the server gets changed.
-
--
-### The IDs API is:
-
-#### URL: /ids/
-
-* `GET` : Get all github ids registered
-* `POST` : add your github id / name to be registered
-* `PUT` : change the name linked to your github id
-
-json payload for /ids/ - this is a sample
-
-```json
-{
-    "userid": "-", // gets filled w id
-    "name": "Kris",
-    "github": "xt0fer"
-}
 ```
- 
-#### Example: 
+npm install
+```
 
-If I type `cmd? ids Kris xt0fer` into the shell, your command processor creates a JSON object which looks like:
+We use npm scripts and [Webpack][] as our build system.
 
- ```json
- {
-     "userid": "-", // gets filled w id
-     "name": "Kris",
-     "github": "xt0fer"
- }
- ```
-and send it as the body of a POST request to  `http://zipcode.rocks:8085/ids/`
+Run the following commands in two separate terminals to create a blissful development experience where your browser
+auto-refreshes when files change on your hard drive.
 
- 
-## Messages
+```
+./mvnw
+npm start
+```
 
-#### Message comands in shell
-in the shell
-* `messages` should return the last 20 messages, nicely formatted.
-* `messages your_github_id` should return the last 20 messages sent to you.
-* `send your_github_id 'Hello World' ` should post a new message in the timeline
-* `send your_github_id 'my string message' to some_friend_githubid` should post a message to your friend from you on the timeline.
+Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
+Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
 
-the Messages API is:
+The `npm run` command will list all of the scripts available to run for this project.
 
-#### URL: /messages/
-* `GET` : Get last 20 msgs - returns an JSON array of message objects
+### PWA Support
 
-#### URL: /ids/:mygithubid/messages/
-* `GET` : Get last 20 msgs for myid  - returns an JSON array of message objects
-* `POST` : Create a new message in timeline - need to POST a new message object, and will get back one with a message sequence number and timestamp of the server inserted.
+JHipster ships with PWA (Progressive Web App) support, and it's turned off by default. One of the main components of a PWA is a service worker.
 
-#### URL: /ids/:mygithubid/messages/:sequence
-* `GET` : Get msg with a sequence  - returns a JSON message object for a sequence number
+The service worker initialization code is commented out by default. To enable it, uncomment the following code in `src/main/webapp/index.html`:
 
-#### URL: /ids/:mygithubid/from/:friendgithubid
-* `GET` : Get last 20 msgs for myid from friendid
-
-json payload for /messages/ these are samples, one to a specific friend, one to the timeline.
-
-```json
-[
-  {
-    "sequence": "-",
-    "timestamp": "_",
-    "fromid": "xt0fer",
-    "toid": "kristofer",
-    "message": "Hello, Kristofer!"
-  },
-
-  {
-    "sequence": "-",
-    "timestamp": "_",
-    "fromid": "xt0fer",
-    "toid": "",
-    "message": "Hello, World!"
+```html
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').then(function () {
+      console.log('Service Worker Registered');
+    });
   }
-]
+</script>
 ```
 
-#### Example: 
- 
-if I type 
-``` cmd?
-send xt0fer 'Hello old buddy!' to torvalds
+Note: [Workbox](https://developers.google.com/web/tools/workbox/) powers JHipster's service worker. It dynamically generates the `service-worker.js` file.
+
+### Managing dependencies
+
+For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
+
 ```
-into the shell, your command processor creates a JSON object which looks like:
+npm install --save --save-exact leaflet
+```
 
- ```json
-{
-	"sequence": "-",
-	"timestamp": "_",
-	"fromid": "xt0fer",
-	"toid": "torvalds",
-	"message": "Hello old buddy!"
-}
- ```
-and send it as the body of a POST request to  `http://zipcode.rocks:8085/ids/xt0fer/messages/`
+To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
 
+```
+npm install --save-dev --save-exact @types/leaflet
+```
 
+Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
+Note: There are still a few other things remaining to do for Leaflet that we won't detail here.
 
-## Part Two
+For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
-What's that ProcessBuilder stuff about? In the SimpleShell class, take a look. How can that be used
-as a pattern to use threads to make the API calls and wait for the response? Maybe launch a new thread on every request?
+### JHipster Control Center
 
-## Part Three
+JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
 
-Build a better set of commands. Make the "fromid" intrinsic, so it isn't needed on the various shell commands.
-Add a feature where you can send messages by someone's name. Create a means where the client watches the server for 
-any private messages to you and only prints them once. 
-Add another command that watches the global stream and only prints messages once.
+```
+docker-compose -f src/main/docker/jhipster-control-center.yml up
+```
 
+## Building for production
 
+### Packaging as jar
 
+To build the final jar and optimize the Jive application for production, run:
 
+```
+./mvnw -Pprod clean verify
+```
+
+This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
+To ensure everything worked, run:
+
+```
+java -jar target/*.jar
+```
+
+Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
+
+Refer to [Using JHipster in production][] for more details.
+
+### Packaging as war
+
+To package your application as a war in order to deploy it to an application server, run:
+
+```
+./mvnw -Pprod,war clean verify
+```
+
+## Testing
+
+To launch your application's tests, run:
+
+```
+./mvnw verify
+```
+
+### Client tests
+
+Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
+
+```
+npm test
+```
+
+For more information, refer to the [Running tests page][].
+
+### Code quality
+
+Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
+
+```
+docker-compose -f src/main/docker/sonar.yml up -d
+```
+
+Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
+
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
+
+Then, run a Sonar analysis:
+
+```
+./mvnw -Pprod clean verify sonar:sonar
+```
+
+If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
+
+```
+./mvnw initialize sonar:sonar
+```
+
+For more information, refer to the [Code quality page][].
+
+## Using Docker to simplify development (optional)
+
+You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+
+For example, to start a mysql database in a docker container, run:
+
+```
+docker-compose -f src/main/docker/mysql.yml up -d
+```
+
+To stop it and remove the container, run:
+
+```
+docker-compose -f src/main/docker/mysql.yml down
+```
+
+You can also fully dockerize your application and all the services that it depends on.
+To achieve this, first build a docker image of your app by running:
+
+```
+npm run java:docker
+```
+
+Or build a arm64 docker image when using an arm64 processor os like MacOS with M1 processor family running:
+
+```
+npm run java:docker:arm64
+```
+
+Then run:
+
+```
+docker-compose -f src/main/docker/app.yml up -d
+```
+
+When running Docker Desktop on MacOS Big Sur or later, consider enabling experimental `Use the new Virtualization framework` for better processing performance ([disk access performance is worse](https://github.com/docker/roadmap/issues/7)).
+
+For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+
+## Continuous Integration (optional)
+
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+
+[jhipster homepage and latest documentation]: https://www.jhipster.tech
+[jhipster 7.9.3 archive]: https://www.jhipster.tech/documentation-archive/v7.9.3
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.9.3/development/
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.9.3/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.9.3/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v7.9.3/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v7.9.3/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.9.3/setting-up-ci/
+[node.js]: https://nodejs.org/
+[npm]: https://www.npmjs.com/
+[webpack]: https://webpack.github.io/
+[browsersync]: https://www.browsersync.io/
+[jest]: https://facebook.github.io/jest/
+[leaflet]: https://leafletjs.com/
+[definitelytyped]: https://definitelytyped.org/
